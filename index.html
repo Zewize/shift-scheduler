@@ -8,70 +8,57 @@
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f4f8; direction: rtl; }
-.container { max-width: 1400px; margin: 0 auto; padding: 20px; }
-h1 { text-align: center; padding: 20px 0 24px; color: #1a5c2a; font-size: 1.7rem; }
+.container { max-width: 1500px; margin: 0 auto; padding: 20px; }
+h1 { text-align: center; padding: 18px 0 22px; color: #1a5c2a; font-size: 1.7rem; }
 
-.upload-card {
-  background: #fff;
-  border-radius: 10px;
+.top-card {
+  background: #fff; border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-  padding: 24px 28px;
-  margin-bottom: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  align-items: flex-end;
+  padding: 20px 24px; margin-bottom: 18px;
+  display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-end;
 }
-.upload-card label { font-weight: 600; font-size: 0.9rem; color: #444; display: block; margin-bottom: 5px; }
-.file-wrap { flex: 1; min-width: 220px; }
+.field { display: flex; flex-direction: column; gap: 4px; }
+.field label { font-weight: 600; font-size: 0.85rem; color: #444; }
 input[type=file] {
-  border: 2px dashed #4caf50; border-radius: 8px;
-  padding: 10px 14px; width: 100%; cursor: pointer;
-  background: #f9fff9; font-size: 0.95rem; color: #333;
+  border: 2px dashed #4caf50; border-radius: 7px;
+  padding: 9px 13px; cursor: pointer;
+  background: #f9fff9; font-size: 0.9rem; width: 260px;
 }
-.field { display: flex; flex-direction: column; }
-input[type=text] { border: 1px solid #ccc; border-radius: 6px; padding: 8px 10px; font-size: 0.95rem; width: 130px; }
-input[type=number] { border: 1px solid #ccc; border-radius: 6px; padding: 8px 10px; font-size: 0.95rem; width: 75px; }
-button {
-  background: #2e7d32; color: #fff; border: none; border-radius: 7px;
-  padding: 10px 26px; font-size: 1rem; cursor: pointer; font-weight: 700;
-  transition: background 0.2s; height: 40px; align-self: flex-end;
-}
-button:hover { background: #1b5e20; }
-.msg { width: 100%; font-size: 0.88rem; }
+input[type=text]   { border:1px solid #ccc; border-radius:6px; padding:7px 9px; font-size:0.9rem; width:120px; }
+input[type=number] { border:1px solid #ccc; border-radius:6px; padding:7px 9px; font-size:0.9rem; width:65px; }
+.msg { font-size: 0.85rem; align-self: center; }
 .ok  { color: #1b5e20; }
 .err { color: #b71c1c; }
+.warn { color: #e65100; }
 
-/* Schedule output */
-.sched-wrap { overflow-x: auto; margin-top: 6px; }
-table { border-collapse: collapse; font-size: 0.82rem; min-width: 100%; }
-th, td { border: 1px solid #bbb; padding: 6px 9px; text-align: center; white-space: nowrap; }
+.sched-card { background:#fff; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.08); padding:18px 20px; }
+.btns { display:flex; gap:10px; margin-bottom:14px; flex-wrap:wrap; }
+button { border:none; border-radius:7px; padding:9px 20px; font-size:0.88rem; cursor:pointer; font-weight:700; }
+.b-green  { background:#2e7d32; color:#fff; } .b-green:hover  { background:#1b5e20; }
+.b-blue   { background:#0277bd; color:#fff; } .b-blue:hover   { background:#01579b; }
+.b-grey   { background:#546e7a; color:#fff; } .b-grey:hover   { background:#37474f; }
 
-.hd   { background: #1e6b23; color: #fff; font-size: 0.9rem; font-weight: 700; }
-.hn   { background: #2e7d32; color: #fff; }
-.hs   { background: #43a047; color: #fff; font-size: 0.78rem; }
-.rc   { background: #e8f5e9; font-weight: 700; color: #1a5c2a; text-align: right; padding-right: 12px; min-width: 110px; }
-.cell-ok    { background: #c8e6c9; color: #1b5e20; }
-.cell-empty { background: #fff; color: #aaa; }
+.ov { overflow-x: auto; }
+table { border-collapse:collapse; font-size:0.8rem; }
+th,td { border:1px solid #bbb; padding:5px 8px; text-align:center; white-space:nowrap; }
+.hd { background:#1e6b23; color:#fff; font-size:0.88rem; font-weight:700; }
+.hn { background:#2e7d32; color:#fff; }
+.hs { background:#43a047; color:#fff; font-size:0.75rem; }
+.rc { background:#e8f5e9; font-weight:700; color:#1a5c2a; text-align:right; padding-right:12px; min-width:110px; }
+.assigned { background:#c8e6c9; color:#1b5e20; }
+.empty    { background:#fff; color:#ccc; }
 
-.export-row { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
-.btn-exp { background: #0277bd; color: #fff; border: none; border-radius: 7px; padding: 8px 20px; font-size: 0.9rem; cursor: pointer; font-weight: 600; }
-.btn-exp:hover { background: #01579b; }
-
-@media print {
-  .upload-card, .export-row { display: none; }
-  body { background: #fff; }
-}
+@media print { .btns,.top-card { display:none; } body { background:#fff; } }
 </style>
 </head>
 <body>
 <div class="container">
   <h1>מתזמן משמרות שבועי</h1>
 
-  <div class="upload-card">
-    <div class="file-wrap">
+  <div class="top-card">
+    <div class="field">
       <label>קובץ אילוצים (Excel)</label>
-      <input type="file" id="fileIn" accept=".xlsx,.xls" onchange="handleFile()" />
+      <input type="file" id="fileIn" accept=".xlsx,.xls" onchange="loadFile()" />
     </div>
     <div class="field">
       <label>תאריך התחלה</label>
@@ -88,259 +75,251 @@ th, td { border: 1px solid #bbb; padding: 6px 9px; text-align: center; white-spa
     <div id="msg" class="msg"></div>
   </div>
 
-  <div id="schedCard" style="display:none">
-    <div class="export-row">
-      <button class="btn-exp" onclick="copyTable()">📋 העתק ל-Excel</button>
-      <button class="btn-exp" onclick="dlCSV()">⬇️ הורד CSV</button>
-      <button class="btn-exp" onclick="window.print()" style="background:#546e7a">🖨️ הדפס</button>
+  <div class="sched-card" id="schedCard" style="display:none">
+    <div class="btns">
+      <button class="b-blue"  onclick="copyTable()">📋 העתק ל-Excel</button>
+      <button class="b-blue"  onclick="dlCSV()">⬇️ הורד CSV</button>
+      <button class="b-grey"  onclick="window.print()">🖨️ הדפס</button>
     </div>
-    <div class="sched-wrap" id="schedWrap" style="margin-top:12px"></div>
+    <div class="ov" id="schedWrap"></div>
   </div>
 </div>
 
 <script>
+// ─── Constants ────────────────────────────────────────────────────────────────
 const DAY_KEYS = ['א','ב','ג','ד','ה','ו','ש'];
-const S_NAMES  = ['בוקר 8-15','ערב 15-22','לילה 22-8'];
-const S_MOR=0, S_AFT=1, S_NGT=2;
+const SHIFTS   = ['בוקר 8-15','ערב 15-22','לילה 22-8'];
+const MOR=0, AFT=1, NGT=2;
 
-let people = [];
-let sched  = null;
-let meta   = null;
+// ─── State ────────────────────────────────────────────────────────────────────
+let people = [], sched = null, meta = null;
 
-function msg(t, c='ok') { document.getElementById('msg').innerHTML = `<span class="${c}">${t}</span>`; }
-
-function parseDateStr(s) {
-  const p = s.trim().split('/');
-  return new Date(+(p[2]||2026), +(p[1]||1)-1, +(p[0]||1));
-}
+// ─── UI helpers ───────────────────────────────────────────────────────────────
+function setMsg(t, c='ok') { document.getElementById('msg').innerHTML=`<span class="${c}">${t}</span>`; }
 function fmtDate(dt) { return `${dt.getDate()}/${dt.getMonth()+1}`; }
 function addDays(dt,n){ const d=new Date(dt); d.setDate(d.getDate()+n); return d; }
-function isX(v){ return String(v||'').trim().toLowerCase()==='x'; }
+function parseDt(s){ const p=s.trim().split('/'); return new Date(+(p[2]||2026),+(p[1]||1)-1,+(p[0]||1)); }
 
-// ── Auto-detect where day columns start ──────────────────────────────────────
-function detectDayColStart(rows) {
-  // Look in first 5 rows for a row containing day letters א ב ג
-  for (let r = 0; r < Math.min(5, rows.length); r++) {
+// ─── Detect if a cell value means "כן / yes / true" ──────────────────────────
+function isTruthy(v) {
+  const s = String(v??'').trim().toLowerCase();
+  return s==='כן' || s==='yes' || s==='true' || s==='1' || s==='v' || s==='✓' || s==='✅' || s==='x' || s==='כ';
+}
+
+// ─── Find the first column that looks like "יום א" or "א" ────────────────────
+function findDayCol(rows) {
+  for (let r=0; r<Math.min(6, rows.length); r++) {
     const row = rows[r] || [];
-    for (let c = 0; c < row.length - 2; c++) {
-      const v = String(row[c]||'').trim();
-      const v1 = String(row[c+1]||'').trim();
-      const v2 = String(row[c+2]||'').trim();
-      if ((v==='א'||v==='ב') && (v1==='ב'||v1==='ג') && (v2==='ג'||v2==='ד')) {
-        return c; // found day header columns
+    for (let c=0; c<row.length; c++) {
+      const v = String(row[c]??'').trim();
+      // Match standalone day letters: א ב ג  OR  "יום א" style
+      if (v==='א' || v==="יום א'" || v==="יום א") {
+        // Confirm next cell is ב or יום ב
+        const v1 = String(row[c+1]??'').trim();
+        if (v1==='ב' || v1==="יום ב'" || v1==="יום ב") return c;
       }
     }
   }
-  return 4; // fallback default
+  return 4; // fallback: assume 4 non-day columns (name, role, czo, prefs)
 }
 
-// ── Auto-detect how many header rows to skip ─────────────────────────────────
-function detectDataStart(rows, dayCol) {
-  // First row where col 0 has a non-empty value that looks like a name
-  for (let r = 0; r < rows.length; r++) {
-    const row = rows[r] || [];
-    const v = String(row[0]||'').trim();
-    if (!v) continue;
-    // Skip if this row is a header (contains header keywords)
-    const low = v.toLowerCase();
-    if (low.includes('שם') || low.includes('name') || low.includes('תפקיד')) continue;
-    // Check if day columns have X or empty (data row)
-    return r;
-  }
-  return 3;
-}
-
-function handleFile() {
+// ─── Parse Excel ──────────────────────────────────────────────────────────────
+// Expected row structure per person (3 rows):
+//   col 0: שם     col 1: תפקיד     col 2: צו פתוח (כן/לא)
+//   col 3: העדפות  cols dayCol..dayCol+6 : ימים א-ש  (X = cannot work)
+//   row 0 = בוקר  row 1 = ערב  row 2 = לילה
+function loadFile() {
   const file = document.getElementById('fileIn').files[0];
   if (!file) return;
 
-  const reader = new FileReader();
-  reader.onload = e => {
+  const rdr = new FileReader();
+  rdr.onload = ev => {
     try {
-      const wb = XLSX.read(new Uint8Array(e.target.result), { type:'array' });
-      // Try the sheet named "אילוצים" first, else first sheet
-      const sheetName = wb.SheetNames.find(n => n.includes('אילוצים')) || wb.SheetNames[0];
-      const rows = XLSX.utils.sheet_to_json(wb.Sheets[sheetName], { header:1, defval:'' });
+      const wb = XLSX.read(new Uint8Array(ev.target.result), { type:'array' });
+      // Prefer sheet named "אילוצים", else first sheet
+      const sheetName = wb.SheetNames.find(n=>n.includes('אילוצים')) || wb.SheetNames[0];
+      const raw = XLSX.utils.sheet_to_json(wb.Sheets[sheetName], { header:1, defval:'' });
 
-      const dayCol   = detectDayColStart(rows);
-      const dataStart= detectDataStart(rows, dayCol);
+      const dayCol = findDayCol(raw);
+
+      // Find first data row (has a non-empty name that isn't a header label)
+      let start = 0;
+      for (let r=0; r<raw.length; r++) {
+        const name = String(raw[r][0]??'').trim();
+        if (!name) continue;
+        // Skip header-like rows
+        if (name==='שם'||name==='name'||name==='תפקיד') continue;
+        start = r; break;
+      }
 
       people = [];
-      let i = dataStart;
+      let i = start;
+      while (i < raw.length - 1) {
+        const r0 = raw[i]   || [];
+        const r1 = raw[i+1] || [];
+        const r2 = raw[i+2] || [];
 
-      while (i < rows.length) {
-        const r0 = rows[i]   || [];
-        const r1 = rows[i+1] || [];
-        const r2 = rows[i+2] || [];
-
-        const name = String(r0[0]||'').trim();
+        const name = String(r0[0]??'').trim();
         if (!name) { i++; continue; }
 
-        const role       = String(r0[1]||'').trim();
-        const czoPatuach = String(r0[2]||'').trim() === 'כן';
-        const prefs      = String(r0[3]||'').trim();
+        const role = String(r0[1]??'').trim();
+        const czo  = isTruthy(r0[2]);          // column 2: צו פתוח
+        const prefs= String(r0[3]??'').trim(); // column 3: העדפות
 
+        // constraints[shift][dayIdx] = true → cannot work (X)
         const c = [[],[],[]];
         for (let d=0; d<7; d++) {
-          c[S_MOR][d] = isX(r0[dayCol+d]);
-          c[S_AFT][d] = isX(r1[dayCol+d]);
-          c[S_NGT][d] = isX(r2[dayCol+d]);
+          c[MOR][d] = String(r0[dayCol+d]??'').trim().toLowerCase() === 'x';
+          c[AFT][d] = String(r1[dayCol+d]??'').trim().toLowerCase() === 'x';
+          c[NGT][d] = String(r2[dayCol+d]??'').trim().toLowerCase() === 'x';
         }
 
-        people.push({ name, role, czoPatuach, prefs, c });
+        people.push({ name, role, czo, prefs, c });
         i += 3;
       }
 
-      if (!people.length) { msg('לא נמצאו עובדים — בדוק שהגיליון "אילוצים" קיים ופורמט נכון', 'err'); return; }
+      if (!people.length) { setMsg('לא נמצאו עובדים. בדוק שהגיליון "אילוצים" קיים ופורמט נכון.','err'); return; }
 
-      msg(`✅ ${people.length} עובדים נטענו (${people.filter(p=>p.czoPatuach).length} בצו פתוח) — מחשב לוח...`);
-      setTimeout(runSchedule, 50);
+      const czoCnt  = people.filter(p=>p.czo).length;
+      const fillCnt = people.length - czoCnt;
+      setMsg(`✅ נטענו ${people.length} עובדים — ${czoCnt} בצו פתוח, ${fillCnt} ממלאים. מחשב...`);
+      setTimeout(buildSchedule, 80);
     } catch(e) {
-      msg('שגיאה: ' + e.message, 'err');
+      setMsg('שגיאה בקריאת הקובץ: '+e.message,'err');
+      console.error(e);
     }
   };
-  reader.readAsArrayBuffer(file);
+  rdr.readAsArrayBuffer(file);
 }
 
-// ── Scheduling ────────────────────────────────────────────────────────────────
-function runSchedule() {
-  if (!people.length) return;
-
+// ─── Scheduling ───────────────────────────────────────────────────────────────
+//
+// RULES:
+//  1. Every czo person → exactly 4 day shifts (בוקר/ערב) + 1 night (כוננות לילה)
+//  2. Allowed 1 "double" (בוקר+ערב same day) = counts as 2 of the 4 day shifts
+//     BUT only if:  night ≠ day(double-1) AND night ≠ day(double)
+//  3. X marks = absolute constraint (cannot work)
+//  4. Non-czo → fill remaining gaps fairly (no overloading)
+//
+function buildSchedule() {
   const numDays  = parseInt(document.getElementById('numDays').value)||7;
   const perSlot  = parseInt(document.getElementById('perSlot').value)||1;
-  const startDate= parseDateStr(document.getElementById('startDate').value);
+  const startDate= parseDt(document.getElementById('startDate').value);
   const roles    = [...new Set(people.map(p=>p.role).filter(Boolean))];
-
   meta = { roles, numDays, startDate, perSlot };
 
-  // grid[d][s][role] = [names]
+  // grid[day][shift][role] = [ names... ]
   const grid = {};
   for (let d=0; d<numDays; d++) {
     grid[d] = [{},{},{}];
-    roles.forEach(r => { grid[d][0][r]=[]; grid[d][1][r]=[]; grid[d][2][r]=[]; });
+    roles.forEach(r => { grid[d][MOR][r]=[]; grid[d][AFT][r]=[]; grid[d][NGT][r]=[]; });
   }
 
-  // Per-person assignment state
-  // czoPatuach: max 4 day shifts + 1 night. Non-czo: fills gaps, max numDays shifts.
-  const A = {};
-  people.forEach(p => {
-    A[p.name] = {
-      dayCount:  0,
-      nightCount: 0,
-      nightDay:  -1,
-      hasDouble: false,
-      doubleDay: -1,
-      slots: [],
-      maxDay:   p.czoPatuach ? 4 : numDays,   // hard ceiling
-      maxNight: p.czoPatuach ? 1 : 1            // max 1 night for everyone
-    };
-  });
+  // Track per-person progress
+  const P = {};
+  people.forEach(p => P[p.name] = { day:0, night:0, nightDay:-1, doubled:false, total:0 });
 
-  const czoPeople  = people.filter(p => p.czoPatuach);
-  const fillPeople = people.filter(p => !p.czoPatuach);
+  const czoPeople  = people.filter(p=>p.czo);
+  const fillPeople = people.filter(p=>!p.czo);
 
-  // ── Phase 1: assign exactly 1 night (כוננות לילה) to each czoPatuach ────────
+  // ── Phase 1: assign 1 כוננות לילה to every czo person ─────────────────────
   czoPeople.forEach(person => {
-    const a = A[person.name];
+    const st = P[person.name];
     for (let d=0; d<numDays; d++) {
-      if (person.c[S_NGT][d]) continue;                    // X on this night
-      if (a.nightCount >= a.maxNight) break;
-      const slot = grid[d][S_NGT][person.role];
-      if (slot && slot.length < perSlot) {
+      if (person.c[NGT][d]) continue;               // X on this night
+      const slot = grid[d][NGT][person.role];
+      if (slot.length < perSlot) {
         slot.push(person.name);
-        a.nightCount=1; a.nightDay=d;
-        a.slots.push([d,S_NGT]);
+        st.night=1; st.nightDay=d; st.total++;
         break;
       }
     }
   });
 
-  // ── Phase 2: assign exactly 4 day shifts to each czoPatuach ─────────────────
+  // ── Phase 2: assign 4 day shifts to every czo person ──────────────────────
   czoPeople.forEach(person => {
-    const a = A[person.name];
+    const st = P[person.name];
     let needed = 4;
 
-    // Score candidates: prefer slots where role needs coverage + match preference
+    // Build all possible day-shift slots, scored by need + preference
     const cands = [];
     for (let d=0; d<numDays; d++) {
-      for (const s of [S_MOR, S_AFT]) {
+      for (const s of [MOR, AFT]) {
         if (person.c[s][d]) continue;
-        const fill = (grid[d][s][person.role]||[]).length;
-        const pref = (person.prefs||'').toLowerCase();
-        let sc = (fill < perSlot ? 10 : 0) + (fill===0 ? 5 : 0);
-        if (s===S_MOR && pref.includes('בוקר')) sc+=8;
-        if (s===S_AFT && (pref.includes('ערב')||pref.includes('צהריים'))) sc+=8;
-        cands.push({ d, s, sc });
+        const pref  = (person.prefs||'').toLowerCase();
+        const fill  = grid[d][s][person.role].length;
+        let   score = (fill < perSlot ? 8 : 0) + (fill===0 ? 4 : 0);
+        if (s===MOR && pref.includes('בוקר')) score+=6;
+        if (s===AFT && (pref.includes('ערב')||pref.includes('צהריים'))) score+=6;
+        cands.push({ d, s, score });
       }
     }
-    cands.sort((a,b) => b.sc - a.sc);
+    cands.sort((a,b)=>b.score-a.score);
 
     for (let ci=0; ci<cands.length && needed>0; ci++) {
       const { d, s } = cands[ci];
-      if (a.slots.some(([ad,as])=>ad===d&&as===s)) continue;
+      if (alreadyIn(st, d, s)) continue;
 
-      // Try double (בוקר+ערב same day) — max 1 per person, no night before/after
-      if (!a.hasDouble && needed>=2) {
-        const os = s===S_MOR ? S_AFT : S_MOR;
-        const nd = a.nightDay;
-        const nightAdjacentOK = nd===-1 || (nd!==d-1 && nd!==d);
-        if (!person.c[os][d] &&
-            !a.slots.some(([ad,as])=>ad===d&&as===os) &&
-            nightAdjacentOK &&
-            (grid[d][s][person.role]||[]).length < perSlot &&
-            (grid[d][os][person.role]||[]).length < perSlot) {
-          grid[d][s][person.role].push(person.name);
-          grid[d][os][person.role].push(person.name);
-          a.dayCount+=2; a.hasDouble=true; a.doubleDay=d;
-          a.slots.push([d,s],[d,os]); needed-=2; continue;
+      // ── Try double (בוקר+ערב) if still allowed and need ≥ 2 ──────────────
+      if (!st.doubled && needed>=2) {
+        const os = s===MOR ? AFT : MOR;             // other shift same day
+        if (!person.c[os][d] && !alreadyIn(st, d, os)) {
+          const nd = st.nightDay;
+          // Rule: night cannot be on (d-1) or (d) when doing double on d
+          const nightOK = nd===-1 || (nd!==d-1 && nd!==d);
+          const slotA = grid[d][s][person.role];
+          const slotB = grid[d][os][person.role];
+          if (nightOK && slotA.length<perSlot && slotB.length<perSlot) {
+            slotA.push(person.name); slotB.push(person.name);
+            markSlot(st, d, s); markSlot(st, d, os);
+            st.day+=2; st.doubled=true; st.total+=2; needed-=2;
+            continue;
+          }
         }
       }
 
-      // Single shift
-      const slot = grid[d][s][person.role]||[];
+      // ── Single shift ──────────────────────────────────────────────────────
+      const slot = grid[d][s][person.role];
       if (slot.length < perSlot) {
         slot.push(person.name);
-        a.dayCount++; a.slots.push([d,s]); needed--;
+        markSlot(st, d, s); st.day++; st.total++; needed--;
       }
     }
   });
 
-  // ── Phase 3: fill remaining slots with non-czoPatuach (fair, capped) ────────
-  // Max shifts for fill people = numDays (at most one shift per day on average)
-  const MAX_FILL = numDays;
-
+  // ── Phase 3: fill remaining slots with non-czo people (fair) ─────────────
   for (let d=0; d<numDays; d++) {
     for (let s=0; s<3; s++) {
       roles.forEach(role => {
         const slot = grid[d][s][role];
         while (slot.length < perSlot) {
           const avail = fillPeople
-            .filter(p =>
-              p.role === role &&
-              !p.c[s][d] &&
-              !slot.includes(p.name) &&
-              A[p.name].dayCount + A[p.name].nightCount < MAX_FILL  // ← hard cap
-            )
-            .sort((a,b) =>
-              (A[a.name].dayCount + A[a.name].nightCount) -
-              (A[b.name].dayCount + A[b.name].nightCount)
-            );
+            .filter(p => p.role===role && !p.c[s][d] && !slot.includes(p.name))
+            .sort((a,b) => P[a.name].total - P[b.name].total);
           if (!avail.length) break;
           const chosen = avail[0];
           slot.push(chosen.name);
-          if (s === S_NGT) A[chosen.name].nightCount++;
-          else              A[chosen.name].dayCount++;
+          P[chosen.name].total++;
         }
       });
     }
   }
 
   sched = grid;
-  renderSchedule();
+  renderTable();
 }
 
-// ── Render ────────────────────────────────────────────────────────────────────
-function renderSchedule() {
+// ─── Slot helpers ─────────────────────────────────────────────────────────────
+function alreadyIn(st, d, s) {
+  return (st.slots||[]).some(([dd,ss])=>dd===d&&ss===s);
+}
+function markSlot(st, d, s) {
+  if (!st.slots) st.slots=[];
+  st.slots.push([d,s]);
+}
+
+// ─── Render ───────────────────────────────────────────────────────────────────
+function renderTable() {
   const { roles, numDays, startDate } = meta;
 
   const dates=[], dayNames=[];
@@ -358,9 +337,9 @@ function renderSchedule() {
   h += '<tr>';
   dayNames.forEach(dn => h += `<th colspan="3" class="hn">${dn}</th>`);
   h += '</tr>';
-  // Row 3: shifts
+  // Row 3: shift names
   h += '<tr>';
-  for (let d=0; d<numDays; d++) S_NAMES.forEach(sn => h += `<th class="hs">${sn}</th>`);
+  for (let d=0; d<numDays; d++) SHIFTS.forEach(sn => h += `<th class="hs">${sn}</th>`);
   h += '</tr></thead><tbody>';
 
   roles.forEach(role => {
@@ -368,11 +347,9 @@ function renderSchedule() {
     for (let d=0; d<numDays; d++) {
       for (let s=0; s<3; s++) {
         const names = sched[d][s][role] || [];
-        if (!names.length) {
-          h += `<td class="cell-empty"></td>`;
-        } else {
-          h += `<td class="cell-ok">${names.join('<br>')}</td>`;
-        }
+        h += names.length
+          ? `<td class="assigned">${names.join('<br>')}</td>`
+          : `<td class="empty"></td>`;
       }
     }
     h += '</tr>';
@@ -381,20 +358,22 @@ function renderSchedule() {
   h += '</tbody></table>';
   document.getElementById('schedWrap').innerHTML = h;
   document.getElementById('schedCard').style.display = '';
-  msg(`✅ לוח נוצר — ${roles.length} תפקידים, ${meta.numDays} ימים`);
+
+  const czoCount = people.filter(p=>p.czo).length;
+  setMsg(`✅ לוח נוצר — ${czoCount} בצו פתוח קיבלו 4 משמרות + כוננות`);
 }
 
-// ── Export ────────────────────────────────────────────────────────────────────
+// ─── Export ───────────────────────────────────────────────────────────────────
 function copyTable() {
   const t = document.querySelector('#schedWrap table');
   if (!t) return;
-  let txt = '';
-  t.querySelectorAll('tr').forEach(r => {
-    txt += Array.from(r.querySelectorAll('th,td')).map(c=>c.innerText.replace(/\n/g,' ')).join('\t')+'\n';
+  let txt='';
+  t.querySelectorAll('tr').forEach(r=>{
+    txt+=Array.from(r.querySelectorAll('th,td')).map(c=>c.innerText.replace(/\n/g,' ')).join('\t')+'\n';
   });
   navigator.clipboard.writeText(txt)
     .then(()=>alert('הועתק! הדבק ב-Excel עם Ctrl+V'))
-    .catch(()=>{ const ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); alert('הועתק!'); });
+    .catch(()=>{ const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);alert('הועתק!'); });
 }
 
 function dlCSV() {
@@ -402,20 +381,17 @@ function dlCSV() {
   const { roles, numDays, startDate } = meta;
   const dates=[], dayNames=[];
   for (let d=0; d<numDays; d++) { dates.push(fmtDate(addDays(startDate,d))); dayNames.push(`יום ${DAY_KEYS[d%7]}'`); }
-
   const rows=[];
-  let h1=['תפקיד'], h2=[''], h3=[''];
+  let h1=['תפקיד'],h2=[''],h3=[''];
   dates.forEach(dt=>{h1.push(dt,'','');});
   dayNames.forEach(dn=>{h2.push(dn,'','');});
-  for(let d=0;d<numDays;d++) S_NAMES.forEach(s=>h3.push(s));
+  for (let d=0;d<numDays;d++) SHIFTS.forEach(s=>h3.push(s));
   rows.push(h1,h2,h3);
-
   roles.forEach(role=>{
     const row=[role];
-    for(let d=0;d<numDays;d++) for(let s=0;s<3;s++) row.push((sched[d][s][role]||[]).join(', ')||'');
+    for (let d=0;d<numDays;d++) for (let s=0;s<3;s++) row.push((sched[d][s][role]||[]).join(', ')||'');
     rows.push(row);
   });
-
   const csv='\uFEFF'+rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
   const a=document.createElement('a');
   a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));
