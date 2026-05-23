@@ -220,31 +220,47 @@ function runSchedule() {
     roles.forEach(r => { grid[d][0][r]=[]; grid[d][1][r]=[]; grid[d][2][r]=[]; });
   }
 
+  // Per-person assignment state
+  // czoPatuach: max 4 day shifts + 1 night. Non-czo: fills gaps, max numDays shifts.
   const A = {};
-  people.forEach(p => { A[p.name] = { dayCount:0, nightCount:0, nightDay:-1, hasDouble:false, doubleDay:-1, slots:[] }; });
+  people.forEach(p => {
+    A[p.name] = {
+      dayCount:  0,
+      nightCount: 0,
+      nightDay:  -1,
+      hasDouble: false,
+      doubleDay: -1,
+      slots: [],
+      maxDay:   p.czoPatuach ? 4 : numDays,   // hard ceiling
+      maxNight: p.czoPatuach ? 1 : 1            // max 1 night for everyone
+    };
+  });
 
   const czoPeople  = people.filter(p => p.czoPatuach);
   const fillPeople = people.filter(p => !p.czoPatuach);
 
-  // Phase 1 — 1 night standby per czoPatuach
+  // ── Phase 1: assign exactly 1 night (כוננות לילה) to each czoPatuach ────────
   czoPeople.forEach(person => {
     const a = A[person.name];
     for (let d=0; d<numDays; d++) {
-      if (person.c[S_NGT][d]) continue;
+      if (person.c[S_NGT][d]) continue;                    // X on this night
+      if (a.nightCount >= a.maxNight) break;
       const slot = grid[d][S_NGT][person.role];
       if (slot && slot.length < perSlot) {
         slot.push(person.name);
-        a.nightCount=1; a.nightDay=d; a.slots.push([d,S_NGT]);
+        a.nightCount=1; a.nightDay=d;
+        a.slots.push([d,S_NGT]);
         break;
       }
     }
   });
 
-  // Phase 2 — 4 day shifts per czoPatuach
+  // ── Phase 2: assign exactly 4 day shifts to each czoPatuach ─────────────────
   czoPeople.forEach(person => {
     const a = A[person.name];
     let needed = 4;
 
+    // Score candidates: prefer slots where role needs coverage + match preference
     const cands = [];
     for (let d=0; d<numDays; d++) {
       for (const s of [S_MOR, S_AFT]) {
@@ -263,13 +279,14 @@ function runSchedule() {
       const { d, s } = cands[ci];
       if (a.slots.some(([ad,as])=>ad===d&&as===s)) continue;
 
-      // Try double
+      // Try double (בוקר+ערב same day) — max 1 per person, no night before/after
       if (!a.hasDouble && needed>=2) {
         const os = s===S_MOR ? S_AFT : S_MOR;
         const nd = a.nightDay;
+        const nightAdjacentOK = nd===-1 || (nd!==d-1 && nd!==d);
         if (!person.c[os][d] &&
             !a.slots.some(([ad,as])=>ad===d&&as===os) &&
-            (nd===-1 || (nd!==d-1 && nd!==d)) &&
+            nightAdjacentOK &&
             (grid[d][s][person.role]||[]).length < perSlot &&
             (grid[d][os][person.role]||[]).length < perSlot) {
           grid[d][s][person.role].push(person.name);
@@ -279,6 +296,7 @@ function runSchedule() {
         }
       }
 
+      // Single shift
       const slot = grid[d][s][person.role]||[];
       if (slot.length < perSlot) {
         slot.push(person.name);
@@ -287,19 +305,31 @@ function runSchedule() {
     }
   });
 
-  // Phase 3 — fill gaps with non-czoPatuach
-  const fc = {};
-  fillPeople.forEach(p => fc[p.name]=0);
+  // ── Phase 3: fill remaining slots with non-czoPatuach (fair, capped) ────────
+  // Max shifts for fill people = numDays (at most one shift per day on average)
+  const MAX_FILL = numDays;
+
   for (let d=0; d<numDays; d++) {
     for (let s=0; s<3; s++) {
       roles.forEach(role => {
         const slot = grid[d][s][role];
         while (slot.length < perSlot) {
           const avail = fillPeople
-            .filter(p=>p.role===role && !p.c[s][d] && !slot.includes(p.name))
-            .sort((a,b)=>fc[a.name]-fc[b.name]);
+            .filter(p =>
+              p.role === role &&
+              !p.c[s][d] &&
+              !slot.includes(p.name) &&
+              A[p.name].dayCount + A[p.name].nightCount < MAX_FILL  // ← hard cap
+            )
+            .sort((a,b) =>
+              (A[a.name].dayCount + A[a.name].nightCount) -
+              (A[b.name].dayCount + A[b.name].nightCount)
+            );
           if (!avail.length) break;
-          slot.push(avail[0].name); fc[avail[0].name]++;
+          const chosen = avail[0];
+          slot.push(chosen.name);
+          if (s === S_NGT) A[chosen.name].nightCount++;
+          else              A[chosen.name].dayCount++;
         }
       });
     }
