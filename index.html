@@ -270,17 +270,25 @@ function buildSchedule() {
     }
   });
 
-  // Phase 3: fill empty slots with non-czo people (fair distribution)
+  // Phase 3: fill empty slots with non-czo (max 1 shift per day, max numDays total)
+  fillPeople.forEach(p => { P[p.name].daysWorked = new Set(); });
+
   for (let d=0; d<numDays; d++) {
     for (let s=0; s<3; s++) {
       roles.forEach(role => {
         if (grid[d][s][role].length === 0) {
           const avail = fillPeople
-            .filter(p => p.role===role && !p.c[s][d])
+            .filter(p =>
+              p.role === role &&
+              !p.c[s][d] &&
+              !P[p.name].daysWorked.has(d) &&   // max 1 shift per day
+              P[p.name].total < numDays           // max numDays shifts total
+            )
             .sort((a,b) => P[a.name].total - P[b.name].total);
           if (avail.length) {
             grid[d][s][role].push(avail[0].name);
             P[avail[0].name].total++;
+            P[avail[0].name].daysWorked.add(d);
           }
         }
       });
